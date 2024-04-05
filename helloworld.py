@@ -5,10 +5,10 @@ from fyuncs import *
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
+my_font = pygame.font.SysFont('Comic Sans MS', 230)
 running = True
 
-#print("font module is running:" + str(pygame.font.get_init()))
-my_font = pygame.font.SysFont('Comic Sans MS', 230)
+#constant values
 count = 1
 bpm = 120
 timer = 0
@@ -20,11 +20,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
-
-    #pygame.time.delay(500)
-
     # RENDER YOUR GAME HERE
     timer += clock.get_time()
     if(timer >= (60000/bpm)):
@@ -32,8 +27,8 @@ while running:
         print(timer)
         timer = 0
 
-    click(my_font, screen, count)
-    # print(clock.get_time())
+        screen.fill("purple")
+        click(my_font, screen, count)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
