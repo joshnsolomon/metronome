@@ -1,4 +1,5 @@
 import pygame # type: ignore
+from fyuncs import *
 
 # pygame setup
 pygame.init()
@@ -6,11 +7,11 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
 
-print("font module is running:" + str(pygame.font.get_init()))
-
+#print("font module is running:" + str(pygame.font.get_init()))
 my_font = pygame.font.SysFont('Comic Sans MS', 230)
-
-count = 0
+count = 1
+bpm = 120
+timer = 0
 
 while running:
     # poll for events
@@ -22,22 +23,17 @@ while running:
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("purple")
 
-    pygame.time.delay(500)
-
-    # metronome count
-    count = (count)%4 + 1
-
-    # centering the screen position
-    X, Y = screen.get_size()
-    x, y = my_font.size(str(count))
-    xPos = X/2 - (x/2)
-    yPos = Y/2 - (y/2)
-
+    #pygame.time.delay(500)
 
     # RENDER YOUR GAME HERE
-    #display text
-    text_surface = my_font.render(str(count), False, (0, 0, 0))
-    screen.blit(text_surface, (xPos,yPos))
+    timer += clock.get_time()
+    if(timer >= (60000/bpm)):
+        count = (count)%4 + 1
+        print(timer)
+        timer = 0
+
+    click(my_font, screen, count)
+    # print(clock.get_time())
 
     # flip() the display to put your work on screen
     pygame.display.flip()
