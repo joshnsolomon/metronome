@@ -56,7 +56,7 @@ class Met:
     def tick(self):
         self.clock.tick(self.fps)
 
-    def quit():
+    def quit(self):
         pygame.quit()
 
 
