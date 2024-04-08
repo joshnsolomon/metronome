@@ -4,6 +4,7 @@ class Met:
 
     background = "purple"
     fps = 24
+    click_sound = "./sounds/RIM.wav"
 
     def __init__(self):
 
@@ -49,6 +50,10 @@ class Met:
         #draw
         text_surface = self.my_font.render(str(self.count), False, (0, 0, 0))
         self.screen.blit(text_surface, (xPos,yPos))
+
+        #play click
+        pygame.mixer.music.load(self.click_sound)
+        pygame.mixer.music.play()
 
     def flip(self):
         pygame.display.flip()
