@@ -51,7 +51,7 @@ class Met:
         text_surface = self.my_font.render(str(self.count), False, (0, 0, 0))
         self.screen.blit(text_surface, (xPos,yPos))
 
-        #play click
+        #play click sound
         pygame.mixer.music.load(self.click_sound)
         pygame.mixer.music.play()
 
