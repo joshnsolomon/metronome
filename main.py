@@ -5,8 +5,7 @@ met = Met()
 while met.running:
     met.event_handle()
 
-    if met.should_i_click():
-        met.click()
+    met.update()
     
     met.flip()
     met.tick()
