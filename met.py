@@ -5,7 +5,8 @@ class Met:
 
     background = "purple"
     fps = 24
-
+    max_tempo = 300
+    
     click_sound = "./sounds/RIM.wav"
     one_sound = "./sounds/HAT.wav"
 
@@ -26,8 +27,9 @@ class Met:
         self.count = 1
         self.max_count = 4
         self.bpm = 120
+        self.bpm_step = 10
         self.timer = 0
-        
+
 
     def event_handle(self):
         for event in pygame.event.get():
@@ -36,9 +38,9 @@ class Met:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if self.up.is_inside(pos): #tempo up
-                    self.bpm += 10
+                    self.bpm = min(self.bpm + self.bpm_step, self.max_tempo)
                 if self.down.is_inside(pos): #tempo down
-                    self.bpm -= 10
+                    self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
 
     def update(self):
         self.screen.fill(self.background) #draw background
