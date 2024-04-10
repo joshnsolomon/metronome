@@ -1,5 +1,5 @@
 import pygame
-from button import Button
+from widgets import Button, Switch
 
 class Met:
 
@@ -30,6 +30,9 @@ class Met:
         self.bpm_step = 10
         self.timer = 0
 
+        #locations will be dfined in the draw function
+        self.play_button = Switch(["./images/play.png","./images/pause.png"], [0,0]) 
+
 
     def event_handle(self):
         for event in pygame.event.get():
@@ -41,6 +44,9 @@ class Met:
                     self.bpm = min(self.bpm + self.bpm_step, self.max_tempo)
                 if self.down.is_inside(pos): #tempo down
                     self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
+                if self.play_button.is_inside(pos):
+                    self.play_button.toggle()
+                    self.count = 1
 
     def update(self):
         self.screen.fill(self.background) #draw background
@@ -48,13 +54,15 @@ class Met:
         self.draw_button(self.up)
         self.draw_button(self.down)
 
-        self.draw_bpm([60, 600])
+        self.draw_play(self.play_button)
+
+        self.draw_bpm([20, 600])
 
         self.click()
 
     def should_i_click(self):
         self.timer += self.clock.get_time()
-        if self.timer >= (60000/self.bpm):
+        if self.timer >= (60000/self.bpm) and self.play_button.current_state:
             print (self.timer) #comment this out later
             self.timer = 0 
             return True
@@ -63,8 +71,6 @@ class Met:
 
     def click(self):
         if self.should_i_click():
-            self.count = self.count%self.max_count + 1 #increment beat
-            
             #play click sound
             if self.count == 1:
                 pygame.mixer.music.load(self.one_sound)
@@ -82,6 +88,9 @@ class Met:
             #draw
             text_surface = self.big_font.render(str(self.count), False, (0, 0, 0))
             self.screen.blit(text_surface, (xPos,yPos))
+            
+            #increment beat
+            self.count = self.count%self.max_count + 1 
 
             
         else:
@@ -100,9 +109,19 @@ class Met:
         self.screen.blit(button.surface,button.location)
 
     def draw_bpm(self, position):
-        text_surface = self.small_font.render(str(self.bpm), False, (0, 0, 0))
+        text_surface = self.small_font.render(str(self.bpm) + " BPM", False, (0, 0, 0))
         self.screen.blit(text_surface, position)
-        
+
+    def draw_play(self, switch):
+        #draw in the middle at the top
+        X, Y = self.screen.get_size()
+        x = switch.surface.get_width()
+        n, y = self.big_font.size(str(self.count))
+        xPos = (X-x)/2
+        yPos = Y/2 + y/2 
+
+        switch.location = [xPos, yPos]
+        self.screen.blit(switch.surface, switch.location)
 
     def flip(self):
         pygame.display.flip()
