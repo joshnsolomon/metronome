@@ -1,26 +1,31 @@
 import pygame
 from widgets import Button, Switch
+from audio import Beats
 
 class Met:
 
+    #PyGame Stuff
+    pygame.init()
+    pygame.mixer.init()
+    screen = pygame.display.set_mode((1280,720))
+    clock = pygame.time.Clock()
+    big_font = pygame.font.SysFont('Comic Sans MS', 230)
+    small_font = pygame.font.SysFont('Comic Sans MS', 100)
+
+    #settings
     background = "purple"
     fps = 24
     max_tempo = 300
     
-    click_sound = "./sounds/RIM.wav"
-    one_sound = "./sounds/HAT.wav"
+    #audio stuff
+    beats = Beats()
 
+    #buttons that don't change
     up = Button('./images/up.png',[20,20])
     down = Button('./images/down.png',[20,300])
 
     def __init__(self):
 
-        #PyGame Stuff
-        pygame.init()
-        self.screen = pygame.display.set_mode((1280,720))
-        self.clock = pygame.time.Clock()
-        self.big_font = pygame.font.SysFont('Comic Sans MS', 230)
-        self.small_font = pygame.font.SysFont('Comic Sans MS', 100)
         self.running = True
 
         #user stuff
@@ -29,8 +34,9 @@ class Met:
         self.bpm = 120
         self.bpm_step = 10
         self.timer = 0
+        self.restarting = True
 
-        #locations will be defined in the draw function
+        #buttons that do change - locations will be defined in the draw function
         self.play_button = Switch(["./images/play.png","./images/pause.png"], [0,0]) 
 
 
@@ -46,6 +52,7 @@ class Met:
                     self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
                 if self.play_button.is_inside(pos):
                     self.play_button.toggle()
+                    self.restarting = True
                     self.count = 1
 
     def update(self):
@@ -71,13 +78,16 @@ class Met:
 
     def click(self):
         if self.should_i_click():
-            #play click sound
-            if self.count == self.max_count: #not sure why its this instead of the one
-                pygame.mixer.music.load(self.one_sound)
-                pygame.mixer.music.play()
-            else:
-                pygame.mixer.music.load(self.click_sound)
-                pygame.mixer.music.play()
+            #this is so it plays the first beat after restarting
+            if self.restarting:
+                self.count = self.max_count
+                self.restarting = False
+            
+            #increment beat
+            self.count = self.count%self.max_count + 1 
+
+            #play click sounds
+            self.beats.play(self.count)
 
             #center the number
             X, Y = self.screen.get_size()
@@ -89,8 +99,6 @@ class Met:
             text_surface = self.big_font.render(str(self.count), False, (0, 0, 0))
             self.screen.blit(text_surface, (xPos,yPos))
             
-            #increment beat
-            self.count = self.count%self.max_count + 1 
 
             
         else:
