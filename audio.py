@@ -2,12 +2,14 @@ import pygame
 
 class Beats:
     # might have to change this to pygame.mixer.find_channel()
-    pygame.mixer.init()
-    channel = pygame.mixer.Channel(1)
+    
+    def __init__(self):
 
-    hat =   pygame.mixer.Sound("./sounds/HAT.wav")
-    snare = pygame.mixer.Sound("./sounds/SNARE.wav")
-    rim =   pygame.mixer.Sound("./sounds/RIM.wav")
+        self.channel = pygame.mixer.Channel(1)
+
+        self.hat =   pygame.mixer.Sound("./sounds/HAT.wav")
+        self.snare = pygame.mixer.Sound("./sounds/SNARE.wav")
+        self.rim =   pygame.mixer.Sound("./sounds/RIM.wav")
 
     def play(self,count):
         if count == 1:
