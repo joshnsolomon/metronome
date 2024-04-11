@@ -30,7 +30,7 @@ class Met:
         self.bpm_step = 10
         self.timer = 0
 
-        #locations will be dfined in the draw function
+        #locations will be defined in the draw function
         self.play_button = Switch(["./images/play.png","./images/pause.png"], [0,0]) 
 
 
