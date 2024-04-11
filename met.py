@@ -72,7 +72,7 @@ class Met:
     def click(self):
         if self.should_i_click():
             #play click sound
-            if self.count == 1:
+            if self.count == self.max_count: #not sure why its this instead of the one
                 pygame.mixer.music.load(self.one_sound)
                 pygame.mixer.music.play()
             else:
