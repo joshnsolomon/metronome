@@ -12,3 +12,6 @@ def click(my_font, screen, count):
     text_surface = my_font.render(str(count), False, (0, 0, 0))
     screen.blit(text_surface, (xPos,yPos))
 
+    pygame.mixer.music.load("./sounds/HAT.wav")
+    pygame.mixer.music.play()
+
