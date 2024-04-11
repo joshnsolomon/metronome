@@ -1,5 +1,4 @@
 import pygame # type: ignore
-from fyuncs import *
 
 # pygame setup
 pygame.init()
@@ -9,12 +8,20 @@ my_font = pygame.font.SysFont('Comic Sans MS', 230)
 running = True
 
 #constant values
-count = 1
+count = 0
 bpm = 120
 timer = 0
 
-for i in pygame.mixer.get_init():
-    print(i)
+#sounds 
+hat = pygame.mixer.Sound("./sounds/HAT.wav")
+cnote = pygame.mixer.Sound("./sounds/C.wav")
+
+beats = pygame.mixer.Channel(1)
+notes = pygame.mixer.Channel(2)
+
+
+
+print(pygame.mixer.get_num_channels())
 
 while running:
     # poll for events
@@ -31,10 +38,20 @@ while running:
         timer = 0
 
         screen.fill("purple")
-        click(my_font, screen, count)
+        X, Y = screen.get_size()
+        x, y = my_font.size(str(count))
+        xPos = X/2 - (x/2)
+        yPos = Y/2 - (y/2)
+        
+        text_surface = my_font.render(str(count), False, (0, 0, 0))
+        screen.blit(text_surface, (xPos,yPos))
+
+        beats.play(hat) 
         
         if count == 1:
-            continue
+            notes.play(cnote)
+        if count == (3 or 4):
+            notes.stop()
     # flip() the display to put your work on screen
     pygame.display.flip()
 
