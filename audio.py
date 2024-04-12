@@ -46,15 +46,19 @@ class Notes:
 
         self.key = {'C':self.C, 'D':self.D, 'E':self.E,
                     'F':self.F, 'G':self.G, 'A':self.A, 'B':self.B}
-        self.last_note = random.choice(list(self.key.keys()))
+        self.current_note = random.choice(list(self.key.keys()))
+        self.next_note = random.choice(list(self.key.keys()))
+
 
     def play(self,count):
         if count == 1:
-            #pick a random note
-            note = random.choice([x for x in self.key.keys() if x != self.last_note]) 
-            self.last_note = note
-            print(note)
-            self.channel.play(self.key[note])
+            #make next note the current note and play it and
+            self.current_note = self.next_note
+            self.channel.play(self.key[self.current_note])
+
+            #pick a random different next note
+            self.next_note = random.choice([x for x in self.key.keys() if x != self.next_note])
+            print(self.next_note)
         if count == 4:
             self.channel.stop()
     

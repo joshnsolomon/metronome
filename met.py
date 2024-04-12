@@ -68,6 +68,8 @@ class Met:
 
         self.click()
 
+        self.draw_notes(self.notes)
+
     def should_i_click(self):
         self.timer += self.clock.get_time()
         if self.timer >= (60000/self.bpm) and self.play_button.current_state:
@@ -132,6 +134,53 @@ class Met:
 
         switch.location = [xPos, yPos]
         self.screen.blit(switch.surface, switch.location)
+
+    def draw_notes(self, notes):
+        xpad = 20
+        ypad = 20
+        X, Y = self.screen.get_size()
+        
+        #figure out the max width of the incoming notes set where the label will go
+        max_width = 0
+        max_height = 0
+        for i in notes.key:
+            wid, hyt = self.big_font.size(i)
+            if wid > max_width:
+                max_width = wid
+            if hyt > max_height:
+                max_height = hyt
+
+        #draw current note
+        current_surface = self.big_font.render(notes.current_note, False, (0, 0, 0))    
+        x1 = current_surface.get_width()
+        y1 = current_surface.get_height()
+        xPos1 = X - x1 - xpad
+        yPos1 = ypad
+        self.screen.blit(current_surface, (xPos1,yPos1))
+
+        #draw label for current note
+        current_label_surface = self.small_font.render("Current Note:", False, (0,0,0))
+        x2 = current_label_surface.get_width()
+        y2 = current_label_surface.get_height()
+        xPos2 = X - xpad - max_width - x2
+        yPos2 = yPos1  + (max_height- y2)/2
+        self.screen.blit(current_label_surface, (xPos2,yPos2))
+
+        #draw next note
+        next_surface = self.big_font.render(notes.next_note, False, (0, 0, 0))
+        x3 = next_surface.get_width()
+        y3 = next_surface.get_height()
+        xPos3 = X - xpad - x3
+        yPos3 = ypad + max_height  
+        self.screen.blit(next_surface, (xPos3, yPos3)) 
+                
+        #draw label for next note
+        next_label_surface = self.small_font.render("Next Note:", False, (0,0,0))
+        x4 = next_label_surface.get_width()
+        y4 = next_label_surface.get_height()
+        xPos4 = X - xpad - max_width - x4
+        yPos4 = yPos1  + max_height + (max_height- y4)/2
+        self.screen.blit(next_label_surface, (xPos4,yPos4))
 
     def flip(self):
         pygame.display.flip()
