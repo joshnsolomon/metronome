@@ -1,6 +1,6 @@
 import pygame
 from widgets import Button, Switch
-from audio import Beats
+from audio import Beats, Notes
 
 class Met:
 
@@ -19,6 +19,7 @@ class Met:
     
     #audio stuff
     beats = Beats()
+    notes = Notes()
 
     #buttons that don't change
     up = Button('./images/up.png',[20,20])
@@ -52,6 +53,7 @@ class Met:
                     self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
                 if self.play_button.is_inside(pos):
                     self.play_button.toggle()
+                    self.notes.stop()
                     self.restarting = True
                     self.count = 1
 
@@ -88,6 +90,7 @@ class Met:
 
             #play click sounds
             self.beats.play(self.count)
+            self.notes.play(self.count)
 
             #center the number
             X, Y = self.screen.get_size()
