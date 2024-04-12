@@ -6,7 +6,6 @@ class Met:
 
     #PyGame Stuff
     pygame.init()
-    pygame.mixer.init()
     screen = pygame.display.set_mode((1280,720))
     clock = pygame.time.Clock()
     big_font = pygame.font.SysFont('Comic Sans MS', 230)
