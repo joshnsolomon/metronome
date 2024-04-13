@@ -8,12 +8,14 @@ class Met:
     pygame.init()
     screen = pygame.display.set_mode((1280,720))
     clock = pygame.time.Clock()
-    big_font = pygame.font.SysFont('Comic Sans MS', 230)
-    small_font = pygame.font.SysFont('Comic Sans MS', 100)
+    small_font = pygame.font.Font('./font/Comic Sans MS.ttf', 66)
+    medium_font = pygame.font.Font('./font/Comic Sans MS.ttf', 100)
+    big_font = pygame.font.Font('./font/Comic Sans MS.ttf', 154)
+    extra_big_font = pygame.font.Font('./font/Comic Sans MS.ttf', 250)
 
     #settings
     background = "purple"
-    fps = 24
+    fps = 60
     max_tempo = 300
     
     #audio stuff
@@ -95,12 +97,12 @@ class Met:
 
             #center the number
             X, Y = self.screen.get_size()
-            x, y = self.big_font.size(str(self.count))
+            x, y = self.extra_big_font.size(str(self.count))
             xPos = (X-x)/2
             yPos = (Y-y)/2
 
             #draw
-            text_surface = self.big_font.render(str(self.count), False, (0, 0, 0))
+            text_surface = self.extra_big_font.render(str(self.count), False, (0, 0, 0))
             self.screen.blit(text_surface, (xPos,yPos))
             
 
@@ -108,12 +110,12 @@ class Met:
         else:
             #center the number
             X, Y = self.screen.get_size()
-            x, y = self.big_font.size(str(self.count))
+            x, y = self.extra_big_font.size(str(self.count))
             xPos = (X-x)/2
             yPos = (Y-y)/2
 
             #draw
-            text_surface = self.big_font.render(str(self.count), False, (0, 0, 0))
+            text_surface = self.extra_big_font.render(str(self.count), False, (0, 0, 0))
             self.screen.blit(text_surface, (xPos,yPos))
 
 
@@ -121,7 +123,7 @@ class Met:
         self.screen.blit(button.surface,button.location)
 
     def draw_bpm(self, position):
-        text_surface = self.small_font.render(str(self.bpm) + " BPM", False, (0, 0, 0))
+        text_surface = self.medium_font.render(str(self.bpm) + " BPM", False, (0, 0, 0))
         self.screen.blit(text_surface, position)
 
     def draw_play(self, switch):
@@ -137,7 +139,8 @@ class Met:
 
     def draw_notes(self, notes):
         xpad = 20
-        ypad = 20
+        ypad = 0
+        yshorten = 30
         X, Y = self.screen.get_size()
         
         #figure out the max width of the incoming notes set where the label will go
@@ -155,7 +158,7 @@ class Met:
         x1 = current_surface.get_width()
         y1 = current_surface.get_height()
         xPos1 = X - x1 - xpad
-        yPos1 = ypad
+        yPos1 = ypad - yshorten
         self.screen.blit(current_surface, (xPos1,yPos1))
 
         #draw label for current note
@@ -171,7 +174,7 @@ class Met:
         x3 = next_surface.get_width()
         y3 = next_surface.get_height()
         xPos3 = X - xpad - x3
-        yPos3 = ypad + max_height  
+        yPos3 = ypad + max_height - 2*yshorten 
         self.screen.blit(next_surface, (xPos3, yPos3)) 
                 
         #draw label for next note
@@ -179,7 +182,7 @@ class Met:
         x4 = next_label_surface.get_width()
         y4 = next_label_surface.get_height()
         xPos4 = X - xpad - max_width - x4
-        yPos4 = yPos1  + max_height + (max_height- y4)/2
+        yPos4 = yPos1  + max_height + (max_height- y4)/2 - yshorten
         self.screen.blit(next_label_surface, (xPos4,yPos4))
 
     def flip(self):
