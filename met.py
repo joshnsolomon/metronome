@@ -8,10 +8,10 @@ class Met:
     pygame.init()
     screen = pygame.display.set_mode((1280,720))
     clock = pygame.time.Clock()
-    small_font = pygame.font.Font('./font/Comic Sans MS.ttf', 66)
-    medium_font = pygame.font.Font('./font/Comic Sans MS.ttf', 100)
-    big_font = pygame.font.Font('./font/Comic Sans MS.ttf', 154)
-    extra_big_font = pygame.font.Font('./font/Comic Sans MS.ttf', 250)
+    small_font = pygame.font.Font('./fonts/Comic Sans MS.ttf', 66)
+    medium_font = pygame.font.Font('./fonts/Comic Sans MS.ttf', 100)
+    big_font = pygame.font.Font('./fonts/Comic Sans MS.ttf', 154)
+    extra_big_font = pygame.font.Font('./fonts/Comic Sans MS.ttf', 250)
 
     #settings
     background = "purple"
