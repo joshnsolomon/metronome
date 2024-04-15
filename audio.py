@@ -64,3 +64,7 @@ class Notes:
     
     def stop(self):
         self.channel.stop()
+
+    def randomize(self):
+        self.current_note = ' '
+        self.next_note = random.choice(list(self.key.keys()))

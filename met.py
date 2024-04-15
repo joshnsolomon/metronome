@@ -40,6 +40,7 @@ class Met:
 
         #buttons that do change - locations will be defined in the draw function
         self.play_button = Switch(["./images/play.png","./images/pause.png"], [0,0]) 
+        self.note_switch = Switch(["./images/off.png","./images/on.png"], [0,0]) 
 
 
     def event_handle(self):
@@ -57,6 +58,11 @@ class Met:
                     self.notes.stop()
                     self.restarting = True
                     self.count = 1
+                if self.note_switch.is_inside(pos):
+                    self.note_switch.toggle()
+                    self.notes.channel.stop()
+                    self.notes.randomize()
+                
 
     def update(self):
         self.screen.fill(self.background) #draw background
@@ -70,7 +76,10 @@ class Met:
 
         self.click()
 
-        self.draw_notes(self.notes)
+        self.draw_note_switch(self.note_switch)
+
+        if self.note_switch.current_state:
+            self.draw_notes(self.notes)
 
     def should_i_click(self):
         self.timer += self.clock.get_time()
@@ -93,7 +102,8 @@ class Met:
 
             #play click sounds
             self.beats.play(self.count)
-            self.notes.play(self.count)
+            if self.note_switch.current_state:
+                self.notes.play(self.count)
 
             #center the number
             X, Y = self.screen.get_size()
@@ -184,6 +194,23 @@ class Met:
         xPos4 = X - xpad - max_width - x4
         yPos4 = yPos1  + max_height + (max_height- y4)/2 - yshorten
         self.screen.blit(next_label_surface, (xPos4,yPos4))
+
+    def draw_note_switch(self, switch):
+        xpad = 10
+        X, Y = self.screen.get_size()
+        text = self.small_font.render('Note Generator', False, (0, 0, 0))
+        x, y = text.get_size()
+        xPos1 = X-x - xpad
+        yPos1 = Y-y
+        self.screen.blit(text, (xPos1, yPos1))
+
+        x2, y2 = switch.surface.get_size()
+        xPos2 = xPos1 - x2
+        yPos2 = Y - y/2 - y2/2
+        switch.location = (xPos2, yPos2)
+        self.screen.blit(switch.surface, switch.location)
+
+
 
     def flip(self):
         pygame.display.flip()
