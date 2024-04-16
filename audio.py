@@ -7,6 +7,7 @@ class Beats:
     def __init__(self):
 
         self.channel = pygame.mixer.Channel(1)
+        self.channel.set_volume(0.3)
 
         self.hat =   pygame.mixer.Sound("./sounds/HAT.wav")
         self.snare = pygame.mixer.Sound("./sounds/SNARE.wav")
