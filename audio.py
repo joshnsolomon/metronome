@@ -59,9 +59,8 @@ class Notes:
 
             #pick a random different next note
             self.next_note = random.choice([x for x in self.key.keys() if x != self.next_note])
-            print(self.next_note)
         if count == 4:
-            self.channel.stop()
+            pass #self.channel.stop()
     
     def stop(self):
         self.channel.stop()
