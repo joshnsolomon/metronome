@@ -12,6 +12,7 @@ class Met:
     screen = pygame.display.set_mode((1280,720))
     icon = pygame.image.load(os.path.join(base,'./images/icon.png'))
     pygame.display.set_icon(icon)
+    pygame.display.set_caption('Metronome')
     clock = pygame.time.Clock()
     small_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 66)
     medium_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 100)
