@@ -64,6 +64,13 @@ class Met:
                     self.note_switch.toggle()
                     self.notes.channel.stop()
                     self.notes.randomize()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.play_button.toggle()
+                    self.notes.stop()
+                    self.restarting = True
+                    self.count = 1
+
                 
 
     def update(self):
