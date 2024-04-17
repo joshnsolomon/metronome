@@ -7,4 +7,5 @@ pyinstaller --name 'Metronome' \
             --add-data='../fonts/*:./fonts/' \
             --add-data='../sounds/*:./sounds/' \
             --windowed \
+            --noconfirm \
             ../main.py
