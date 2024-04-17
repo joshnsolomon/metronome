@@ -70,6 +70,11 @@ class Met:
                     self.notes.stop()
                     self.restarting = True
                     self.count = 1
+                if event.key == pygame.K_UP:
+                    self.bpm = min(self.bpm + self.bpm_step, self.max_tempo)
+                if event.key == pygame.K_DOWN:
+                    self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
+
 
                 
 
