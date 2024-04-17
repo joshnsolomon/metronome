@@ -1,19 +1,22 @@
 import pygame
 from widgets import Button, Switch
 from audio import Beats, Notes
+import os
+base = os.path.dirname(__file__)
+
 
 class Met:
 
     #PyGame Stuff
     pygame.init()
     screen = pygame.display.set_mode((1280,720))
-    icon = pygame.image.load('./images/icon.png')
+    icon = pygame.image.load(os.path.join(base,'./images/icon.png'))
     pygame.display.set_icon(icon)
     clock = pygame.time.Clock()
-    small_font = pygame.font.Font('./fonts/Comic Sans MS.ttf', 66)
-    medium_font = pygame.font.Font('./fonts/Comic Sans MS.ttf', 100)
-    big_font = pygame.font.Font('./fonts/Comic Sans MS.ttf', 154)
-    extra_big_font = pygame.font.Font('./fonts/Comic Sans MS.ttf', 250)
+    small_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 66)
+    medium_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 100)
+    big_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 154)
+    extra_big_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 250)
 
     #settings
     background = "purple"
@@ -25,8 +28,8 @@ class Met:
     notes = Notes()
 
     #buttons that don't change
-    up = Button('./images/up.png',[20,20])
-    down = Button('./images/down.png',[20,300])
+    up = Button(os.path.join(base,'./images/up.png'),[20,20])
+    down = Button(os.path.join(base,'./images/down.png'),[20,300])
 
     def __init__(self):
 
@@ -41,8 +44,8 @@ class Met:
         self.restarting = True
 
         #buttons that do change - locations will be defined in the draw function
-        self.play_button = Switch(["./images/play.png","./images/pause.png"], [0,0]) 
-        self.note_switch = Switch(["./images/off.png","./images/on.png"], [0,0]) 
+        self.play_button = Switch([os.path.join(base,"./images/play.png"),os.path.join(base,"./images/pause.png")], [0,0]) 
+        self.note_switch = Switch([os.path.join(base,"./images/off.png"),os.path.join(base,"./images/on.png")], [0,0]) 
 
 
     def event_handle(self):

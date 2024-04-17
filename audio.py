@@ -1,5 +1,7 @@
 import pygame
 import random
+import os
+base = os.path.dirname(__file__)
 
 class Beats:
     # might have to change this to pygame.mixer.find_channel()
@@ -9,10 +11,10 @@ class Beats:
         self.channel = pygame.mixer.Channel(1)
         self.channel.set_volume(0.3)
 
-        self.hat =   pygame.mixer.Sound("./sounds/HAT.wav")
-        self.snare = pygame.mixer.Sound("./sounds/SNARE.wav")
-        self.rim =   pygame.mixer.Sound("./sounds/RIM.wav")
-        self.kick =   pygame.mixer.Sound("./sounds/KICK.wav")
+        self.hat =   pygame.mixer.Sound(os.path.join(base,"./sounds/HAT.wav"))
+        self.snare = pygame.mixer.Sound(os.path.join(base,"./sounds/SNARE.wav"))
+        self.rim =   pygame.mixer.Sound(os.path.join(base,"./sounds/RIM.wav"))
+        self.kick =   pygame.mixer.Sound(os.path.join(base,"./sounds/KICK.wav"))
         
 
     def play(self,count):
@@ -32,18 +34,18 @@ class Notes:
     def __init__(self):
         self.channel = pygame.mixer.Channel(2)
 
-        self.C   = pygame.mixer.Sound("./sounds/C.wav") 
-        self.Csh = pygame.mixer.Sound("./sounds/C#.wav") 
-        self.D   = pygame.mixer.Sound("./sounds/D.wav") 
-        self.Dsh = pygame.mixer.Sound("./sounds/D#.wav") 
-        self.E   = pygame.mixer.Sound("./sounds/E.wav") 
-        self.F   = pygame.mixer.Sound("./sounds/F.wav") 
-        self.Fsh = pygame.mixer.Sound("./sounds/F#.wav") 
-        self.G   = pygame.mixer.Sound("./sounds/G.wav") 
-        self.Gsh = pygame.mixer.Sound("./sounds/G#.wav") 
-        self.A   = pygame.mixer.Sound("./sounds/A.wav") 
-        self.Ash = pygame.mixer.Sound("./sounds/A#.wav") 
-        self.B   = pygame.mixer.Sound("./sounds/B.wav") 
+        self.C   = pygame.mixer.Sound(os.path.join(base,"./sounds/C.wav"))
+        self.Csh = pygame.mixer.Sound(os.path.join(base,"./sounds/C#.wav")) 
+        self.D   = pygame.mixer.Sound(os.path.join(base,"./sounds/D.wav") ) 
+        self.Dsh = pygame.mixer.Sound(os.path.join(base,"./sounds/D#.wav")) 
+        self.E   = pygame.mixer.Sound(os.path.join(base,"./sounds/E.wav") ) 
+        self.F   = pygame.mixer.Sound(os.path.join(base,"./sounds/F.wav") ) 
+        self.Fsh = pygame.mixer.Sound(os.path.join(base,"./sounds/F#.wav"))
+        self.G   = pygame.mixer.Sound(os.path.join(base,"./sounds/G.wav") ) 
+        self.Gsh = pygame.mixer.Sound(os.path.join(base,"./sounds/G#.wav")) 
+        self.A   = pygame.mixer.Sound(os.path.join(base,"./sounds/A.wav") )
+        self.Ash = pygame.mixer.Sound(os.path.join(base,"./sounds/A#.wav"))
+        self.B   = pygame.mixer.Sound(os.path.join(base,"./sounds/B.wav") )
 
         self.key = {'C':self.C, 'D':self.D, 'E':self.E,
                     'F':self.F, 'G':self.G, 'A':self.A, 'B':self.B}
