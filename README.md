@@ -26,3 +26,7 @@ cd installer
 ```
 
 The app should be there under a folder called dist.
+
+___
+
+images from flaticon.com
