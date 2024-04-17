@@ -25,4 +25,4 @@ cd installer
 ./installer.sh
 ```
 
-It should be there under a folder called dist.
+The app should be there under a folder called dist.
