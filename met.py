@@ -59,24 +59,26 @@ class Met:
                     self.bpm = min(self.bpm + self.bpm_step, self.max_tempo)
                 if self.down.is_inside(pos): #tempo down
                     self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
-                if self.play_button.is_inside(pos):
+                if self.play_button.is_inside(pos): #play pause
                     self.play_button.toggle()
                     self.notes.stop()
                     self.restarting = True
                     self.count = 1
-                if self.note_switch.is_inside(pos):
+                    self.notes.randomize()
+                if self.note_switch.is_inside(pos): #note generator
                     self.note_switch.toggle()
                     self.notes.channel.stop()
                     self.notes.randomize()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE: #play pause
                     self.play_button.toggle()
                     self.notes.stop()
                     self.restarting = True
                     self.count = 1
-                if event.key == pygame.K_UP:
+                    self.notes.randomize()
+                if event.key == pygame.K_UP: #tempo up
                     self.bpm = min(self.bpm + self.bpm_step, self.max_tempo)
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN: #tempo down
                     self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
 
 
