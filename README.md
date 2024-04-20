@@ -6,13 +6,13 @@ made with pygame
 To run, download source, and make sure you have pygame installed. 
 
 ```bash
-pip3 install pygame
+pip install pygame
 ```
 
 Then run:
 
 ```bash
-python3 main.py
+python main.py
 ```
 
 ## Installer
@@ -20,7 +20,7 @@ python3 main.py
 if you want to have like an app or whatever, make sure you have pyinstaller, and then run the install script
 
 ```bash
-pip3 install pyinstaller
+pip install pyinstaller
 cd installer
 ./installer.sh
 ```
