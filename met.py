@@ -47,6 +47,7 @@ class Met:
         #buttons that do change - locations will be defined in the draw function
         self.play_button = Switch([os.path.join(base,"./images/play.png"),os.path.join(base,"./images/pause.png")], [0,0]) 
         self.note_switch = Switch([os.path.join(base,"./images/off.png"),os.path.join(base,"./images/on.png")], [0,0]) 
+        self.time_sig = Switch([os.path.join(base,"images/4.png"), os.path.join(base,"images/3.png")])
 
 
     def event_handle(self):
@@ -59,6 +60,12 @@ class Met:
                     self.bpm = min(self.bpm + self.bpm_step, self.max_tempo)
                 if self.down.is_inside(pos): #tempo down
                     self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
+                if self.time_sig.is_inside(pos):
+                    self.time_sig.toggle()
+                    if self.time_sig.current_state == 0:
+                        self.max_count = 4
+                    if self.time_sig.current_state == 1:
+                        self.max_count = 3
                 if self.play_button.is_inside(pos): #play pause
                     self.play_button.toggle()
                     self.notes.stop()
@@ -89,6 +96,8 @@ class Met:
         
         self.draw_button(self.up)
         self.draw_button(self.down)
+
+        self.draw_time_sig(self.time_sig)
 
         self.draw_play(self.play_button)
 
@@ -155,6 +164,12 @@ class Met:
     def draw_bpm(self, position):
         text_surface = self.medium_font.render(str(self.bpm) + " BPM", False, (0, 0, 0))
         self.screen.blit(text_surface, position)
+
+    def draw_time_sig(self, switch):
+        x = self.up.surface.get_width()
+        y = (280 + self.down.surface.get_height())/2 - switch.surface.get_height()/2 + 20
+        switch.location = (x,y)
+        self.screen.blit(switch.surface, switch.location)
 
     def draw_play(self, switch):
         #draw in the middle at the top
