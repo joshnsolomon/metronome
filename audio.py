@@ -46,9 +46,55 @@ class Notes:
         self.A   = pygame.mixer.Sound(os.path.join(base,"./sounds/A.wav") )
         self.Ash = pygame.mixer.Sound(os.path.join(base,"./sounds/A#.wav"))
         self.B   = pygame.mixer.Sound(os.path.join(base,"./sounds/B.wav") )
-
-        self.key = {'C':self.C, 'D':self.D, 'E':self.E,
+       
+        self.key_C = {'C':self.C, 'D':self.D, 'E':self.E,
                     'F':self.F, 'G':self.G, 'A':self.A, 'B':self.B}
+        
+        self.key_Dfl = {'D♭':self.Csh, 'E♭':self.Dsh, 'F':self.F,
+                    'G♭':self.Fsh, 'A♭':self.Gsh, 'B♭':self.Ash, 'C':self.C}
+        
+        self.key_D = {'D':self.D, 'E':self.E, 'F#':self.Fsh,
+                    'G':self.G, 'A':self.A, 'B':self.B, 'C#':self.Csh}
+        
+        self.key_Efl = {'E♭':self.Dsh, 'F':self.F, 'G':self.G,
+                    'A♭':self.Gsh, 'B♭':self.Ash, 'C':self.C, 'D':self.D}
+        
+        self.key_E = {'E':self.E, 'F#':self.Fsh, 'G#':self.Gsh,
+                    'A':self.A, 'B':self.B, 'C#':self.Csh, 'D#':self.Dsh}
+        
+        self.key_F = {'F':self.F, 'G':self.G, 'A':self.A,
+                    'B♭':self.Ash, 'C':self.C, 'D':self.D, 'E':self.E}
+        
+        self.key_Fsh = {'F#':self.Fsh, 'G#':self.Gsh, 'A#':self.Ash,
+                    'B':self.B, 'C#':self.Csh, 'D#':self.Dsh, 'E#':self.F}
+        
+        self.key_Gfl = {'G♭':self.Fsh, 'A♭':self.Gsh, 'B♭':self.Ash,
+                    'C♭':self.B, 'D♭':self.Csh, 'E♭':self.Dsh, 'F':self.F}
+        
+        self.key_G = {'G':self.G, 'A':self.A, 'B':self.B,
+                    'C':self.C, 'D':self.D, 'E':self.E, 'F#':self.Fsh}
+        
+        self.key_Afl = {'A♭':self.Gsh, 'B♭':self.Ash, 'C':self.C,
+                    'D♭':self.Csh, 'E♭':self.Dsh, 'F':self.F, 'G':self.G}
+        
+        self.key_A = {'A':self.A, 'B':self.B, 'C#':self.Csh,
+                    'D':self.D, 'E':self.E, 'F#':self.Fsh, 'G#':self.Gsh}
+        
+        self.key_Bfl = {'B♭':self.Ash, 'C':self.C, 'D':self.D,
+                    'E♭':self.Dsh, 'F':self.F, 'G':self.G, 'A':self.A}
+        
+        self.key_B = {'B':self.B, 'C#':self.Csh, 'D#':self.Dsh,
+                    'E':self.E, 'F#':self.Fsh, 'G#':self.Gsh, 'A#':self.Ash}
+        
+        self.key_list = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'G♭', 'D♭', 'A♭', 'E♭', 'B♭', 'F']
+        
+        self.key_dict = {'C':self.key_C, 'G':self.key_G, 'D':self.key_D, 'A':self.key_A,
+                         'E':self.key_E, 'B':self.key_B, 'F#':self.key_Fsh, 'G♭':self.key_Gfl,
+                         'D♭':self.key_Dfl, 'A♭':self.key_Afl, 'E♭':self.key_Efl, 'B♭': self.key_Bfl,
+                         'F':self.key_F}
+        
+        self.key_name = 'C'
+        self.key = self.key_dict[self.key_name]
         self.current_note = ' '
         self.next_note = ' '
 

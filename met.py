@@ -32,6 +32,8 @@ class Met:
     #buttons that don't change
     up = Button(os.path.join(base,'./images/up.png'),[20,20])
     down = Button(os.path.join(base,'./images/down.png'),[20,300])
+    right = Button(os.path.join(base,'./images/right.png'))
+    left = Button(os.path.join(base, './images/left.png'))
 
     def __init__(self):
 
@@ -72,6 +74,10 @@ class Met:
                     self.play_pause()
                 if self.note_switch.is_inside(pos): #note generator
                     self.switch_note_gen()
+                if self.left.is_inside(pos) and self.note_switch.current_state: #key change left
+                    self.key_left()
+                if self.right.is_inside(pos) and self.note_switch.current_state: #key change right
+                    self.key_right()
 
             #keyboard
             if event.type == pygame.KEYDOWN:
@@ -90,6 +96,10 @@ class Met:
                 if event.key == pygame.K_4: #change to 4/4
                     if self.time_sig.current_state == 1:
                         self.change_time_sig()
+                if event.key == pygame.K_RIGHT and self.note_switch.current_state:
+                    self.key_right()
+                if event.key == pygame.K_LEFT and self.note_switch.current_state:
+                    self.key_left()
 
 
     '''            
@@ -247,6 +257,38 @@ class Met:
         yPos4 = yPos1  + max_height + (max_height- y4)/2 - yshorten
         self.screen.blit(next_label_surface, (xPos4,yPos4))
 
+        #draw key indicator
+        key_surface = self.big_font.render(self.notes.key_name, False, (0,0,0))
+        x5 = key_surface.get_width()
+        y5 = key_surface.get_height()
+        xPos5 = xPos4 + ((X - xPos4)/2) - (x5/2)
+        yPos5 = yPos4 + y4 + 100
+        self.screen.blit(key_surface, (xPos5,yPos5))
+
+        #draw key indicater label
+        key_label_surface = self.small_font.render('Key:', False,(0,0,0))
+        x6 = key_label_surface.get_width()
+        y6 = key_label_surface.get_height()
+        xPos6 = xPos5 - x6
+        yPos6 = yPos5 - 40
+        self.screen.blit(key_label_surface, (xPos6,yPos6))
+
+        #draw left button
+        x7 = self.left.surface.get_width()
+        y7 = self.left.surface.get_height()
+        xPos7 = xPos5 - x7 - 30
+        yPos7 = yPos5 + y5/2 - y7/2
+        self.left.location = [xPos7, yPos7]
+        self.screen.blit(self.left.surface, self.left.location)
+
+        #draw right button
+        x8 = self.right.surface.get_width()
+        y8 = self.right.surface.get_height()
+        xPos8 = xPos5 + x5 + 30
+        yPos8 = yPos7
+        self.right.location = [xPos8, yPos8]
+        self.screen.blit(self.right.surface, self.right.location)
+
     def draw_note_switch(self, switch):
         xpad = 10
         X, Y = self.screen.get_size()
@@ -273,6 +315,22 @@ class Met:
 
     def tempo_down(self):
         self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
+
+    def key_right(self):
+        i = self.notes.key_list.index(self.notes.key_name)
+        i += 1 # got to the next key
+        i %= len(self.notes.key_list)
+        self.notes.key_name = self.notes.key_list[i]
+        self.notes.key = self.notes.key_dict[self.notes.key_name]
+        self.notes.randomize()
+
+    def key_left(self):
+        i = self.notes.key_list.index(self.notes.key_name)
+        i -= 1 # got to the previous key
+        i %= len(self.notes.key_list)
+        self.notes.key_name = self.notes.key_list[i]
+        self.notes.key = self.notes.key_dict[self.notes.key_name]
+        self.notes.randomize()
 
     def change_time_sig(self):
         self.time_sig.toggle()

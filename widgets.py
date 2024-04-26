@@ -1,7 +1,7 @@
 import pygame
 
 class Button:
-    def __init__(self, path, location):
+    def __init__(self, path, location=[0,0]):
         self.location = location
         self.surface = pygame.image.load(path)
     
