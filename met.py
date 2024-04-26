@@ -9,6 +9,7 @@ class Met:
 
     #PyGame Stuff
     pygame.init()
+    pygame.mixer.init()
     screen = pygame.display.set_mode((1280,720))
     icon = pygame.image.load(os.path.join(base,'./images/icon.png'))
     pygame.display.set_icon(icon)
