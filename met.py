@@ -15,10 +15,13 @@ class Met:
     pygame.display.set_icon(icon)
     pygame.display.set_caption('Metronome')
     clock = pygame.time.Clock()
+
+    #fonts
     small_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 66)
     medium_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 100)
     big_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 154)
     extra_big_font = pygame.font.Font(os.path.join(base,'./fonts/Comic Sans MS.ttf'), 250)
+    note_font = pygame.font.Font(os.path.join(base,'./fonts/NotoMusic-Regular.ttf'), 110)
 
     #settings
     background = "purple"
@@ -218,18 +221,19 @@ class Met:
         #figure out the max width of the incoming notes set where the label will go
         max_width = 0
         max_height = 0
-        for i in notes.key:
-            wid, hyt = self.big_font.size(i)
-            if wid > max_width:
-                max_width = wid
-            if hyt > max_height:
-                max_height = hyt
+        for k in self.notes.key_dict.values():
+            for i in k:
+                wid, hyt = self.note_font.size(i)
+                if wid > max_width:
+                    max_width = wid
+                if hyt > max_height:
+                    max_height = hyt
 
         #draw current note
-        current_surface = self.big_font.render(notes.current_note, False, (0, 0, 0))    
+        current_surface = self.note_font.render(notes.current_note, False, (0, 0, 0))    
         x1 = current_surface.get_width()
         y1 = current_surface.get_height()
-        xPos1 = X - x1 - xpad
+        xPos1 = X - max_width - xpad
         yPos1 = ypad - yshorten
         self.screen.blit(current_surface, (xPos1,yPos1))
 
@@ -242,10 +246,10 @@ class Met:
         self.screen.blit(current_label_surface, (xPos2,yPos2))
 
         #draw next note
-        next_surface = self.big_font.render(notes.next_note, False, (0, 0, 0))
+        next_surface = self.note_font.render(notes.next_note, False, (0, 0, 0))
         x3 = next_surface.get_width()
         y3 = next_surface.get_height()
-        xPos3 = X - xpad - x3
+        xPos3 = X - xpad - max_width
         yPos3 = ypad + max_height - 2*yshorten 
         self.screen.blit(next_surface, (xPos3, yPos3)) 
                 
@@ -258,7 +262,7 @@ class Met:
         self.screen.blit(next_label_surface, (xPos4,yPos4))
 
         #draw key indicator
-        key_surface = self.big_font.render(self.notes.key_name, False, (0,0,0))
+        key_surface = self.note_font.render(self.notes.key_name, False, (0,0,0))
         x5 = key_surface.get_width()
         y5 = key_surface.get_height()
         xPos5 = xPos4 + ((X - xPos4)/2) - (x5/2)
@@ -269,14 +273,14 @@ class Met:
         key_label_surface = self.small_font.render('Key:', False,(0,0,0))
         x6 = key_label_surface.get_width()
         y6 = key_label_surface.get_height()
-        xPos6 = xPos5 - x6
+        xPos6 = xPos5 + (x5/2) - x6
         yPos6 = yPos5 - 40
         self.screen.blit(key_label_surface, (xPos6,yPos6))
 
         #draw left button
         x7 = self.left.surface.get_width()
         y7 = self.left.surface.get_height()
-        xPos7 = xPos5 - x7 - 30
+        xPos7 = xPos5 + (x5/2) - max_width/2 - x7
         yPos7 = yPos5 + y5/2 - y7/2
         self.left.location = [xPos7, yPos7]
         self.screen.blit(self.left.surface, self.left.location)
@@ -284,7 +288,7 @@ class Met:
         #draw right button
         x8 = self.right.surface.get_width()
         y8 = self.right.surface.get_height()
-        xPos8 = xPos5 + x5 + 30
+        xPos8 = xPos5 + (x5/2) + (max_width/2) 
         yPos8 = yPos7
         self.right.location = [xPos8, yPos8]
         self.screen.blit(self.right.surface, self.right.location)
