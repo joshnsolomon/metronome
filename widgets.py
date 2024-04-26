@@ -28,7 +28,7 @@ class Button:
             return False
 
 class Switch:
-    def __init__(self, paths, location):
+    def __init__(self, paths, location=(0,0)):
         self.location = location
         self.state_count = len(paths)
         self.paths = paths

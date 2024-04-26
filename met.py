@@ -48,48 +48,60 @@ class Met:
         #buttons that do change - locations will be defined in the draw function
         self.play_button = Switch([os.path.join(base,"./images/play.png"),os.path.join(base,"./images/pause.png")], [0,0]) 
         self.note_switch = Switch([os.path.join(base,"./images/off.png"),os.path.join(base,"./images/on.png")], [0,0]) 
-
-
+        self.time_sig = Switch([os.path.join(base,"images/4.png"), os.path.join(base,"images/3.png")])
+    
+    '''
+    HANDLES ALL THE USER INPUT
+    '''
     def event_handle(self):
         for event in pygame.event.get():
+            #quit
             if event.type == pygame.QUIT:
                 self.running = False
+
+            #mouse click
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if self.up.is_inside(pos): #tempo up
-                    self.bpm = min(self.bpm + self.bpm_step, self.max_tempo)
+                    self.tempo_up()
                 if self.down.is_inside(pos): #tempo down
-                    self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
+                    self.tempo_down()
+                if self.time_sig.is_inside(pos):
+                    self.change_time_sig()
                 if self.play_button.is_inside(pos): #play pause
-                    self.play_button.toggle()
-                    self.notes.stop()
-                    self.restarting = True
-                    self.count = 1
-                    self.notes.randomize()
+                    self.play_pause()
                 if self.note_switch.is_inside(pos): #note generator
-                    self.note_switch.toggle()
-                    self.notes.channel.stop()
-                    self.notes.randomize()
+                    self.switch_note_gen()
+
+            #keyboard
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE: #play pause
-                    self.play_button.toggle()
-                    self.notes.stop()
-                    self.restarting = True
-                    self.count = 1
+                    self.play_pause()
                     self.notes.randomize()
                 if event.key == pygame.K_UP: #tempo up
-                    self.bpm = min(self.bpm + self.bpm_step, self.max_tempo)
+                    self.tempo_up()
                 if event.key == pygame.K_DOWN: #tempo down
-                    self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
+                    self.tempo_down()
+                if event.key == pygame.K_n: #toggle note gen
+                    self.switch_note_gen()
+                if event.key == pygame.K_3: #change to 3/4
+                    if self.time_sig.current_state == 0:
+                        self.change_time_sig()
+                if event.key == pygame.K_4: #change to 4/4
+                    if self.time_sig.current_state == 1:
+                        self.change_time_sig()
 
 
-                
-
+    '''            
+    DRAWS THE WINDOW EVERY FRAME
+    '''
     def update(self):
         self.screen.fill(self.background) #draw background
         
         self.draw_button(self.up)
         self.draw_button(self.down)
+
+        self.draw_time_sig(self.time_sig)
 
         self.draw_play(self.play_button)
 
@@ -102,6 +114,14 @@ class Met:
         if self.note_switch.current_state:
             self.draw_notes(self.notes)
 
+    '''
+    ############################################################################
+    CLICK METHODS
+    These two methods are for the click, should I click is for figuring out 
+    on which frames the metronome should click. And click handles all the 
+    logic of the click itself. 
+    ############################################################################
+    '''
     def should_i_click(self):
         self.timer += self.clock.get_time()
         if self.timer >= (60000/self.bpm) and self.play_button.current_state:
@@ -149,13 +169,24 @@ class Met:
             text_surface = self.extra_big_font.render(str(self.count), False, (0, 0, 0))
             self.screen.blit(text_surface, (xPos,yPos))
 
-
+    '''
+    ############################################################################
+    DRAW METHODS
+    these draw all the individual little things every frame.
+    ############################################################################
+    '''
     def draw_button(self, button):
         self.screen.blit(button.surface,button.location)
 
     def draw_bpm(self, position):
         text_surface = self.medium_font.render(str(self.bpm) + " BPM", False, (0, 0, 0))
         self.screen.blit(text_surface, position)
+
+    def draw_time_sig(self, switch):
+        x = self.up.surface.get_width()
+        y = (280 + self.down.surface.get_height())/2 - switch.surface.get_height()/2 + 20
+        switch.location = (x,y)
+        self.screen.blit(switch.surface, switch.location)
 
     def draw_play(self, switch):
         #draw in the middle at the top
@@ -230,9 +261,48 @@ class Met:
         yPos2 = Y - y/2 - y2/2
         switch.location = (xPos2, yPos2)
         self.screen.blit(switch.surface, switch.location)
+    
+    '''
+    ############################################################################
+    USER INPUT
+    All these function conatin the logic of what to do with user input
+    ############################################################################
+    '''
+    def tempo_up(self):
+        self.bpm = min(self.bpm + self.bpm_step, self.max_tempo)
+
+    def tempo_down(self):
+        self.bpm = max(self.bpm - self.bpm_step, self.bpm_step)
+
+    def change_time_sig(self):
+        self.time_sig.toggle()
+        if self.time_sig.current_state == 0:
+            self.max_count = 4
+        if self.time_sig.current_state == 1:
+            self.max_count = 3 
+            if self.count == 4: #this is so that it doesn't play the hat twice
+                self.count -= 1
+
+    def play_pause(self):
+        self.play_button.toggle()
+        self.notes.stop()
+        self.restarting = True
+        self.count = 1
+        self.notes.randomize()
+
+    def switch_note_gen(self):
+        self.note_switch.toggle()
+        self.notes.channel.stop()
+        self.notes.randomize()
 
 
-
+    '''
+    ############################################################################
+    THIS STUFF
+    I don't really know much about this stuff. But I call it in main.py
+    .. so it must be important
+    ############################################################################
+    '''
     def flip(self):
         pygame.display.flip()
 
