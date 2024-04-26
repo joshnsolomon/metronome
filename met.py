@@ -138,7 +138,7 @@ class Met:
     def should_i_click(self):
         self.timer += self.clock.get_time()
         if self.timer >= (60000/self.bpm) and self.play_button.current_state:
-            print (self.timer) #comment this out later
+            #print (self.timer) #comment this out later
             self.timer = 0 
             return True
         else:
