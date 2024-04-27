@@ -296,7 +296,7 @@ class Met:
     def draw_note_switch(self, switch):
         xpad = 10
         X, Y = self.screen.get_size()
-        text = self.small_font.render('Note Generator', False, (0, 0, 0))
+        text = self.small_font.render('Random Notes', False, (0, 0, 0))
         x, y = text.get_size()
         xPos1 = X-x - xpad
         yPos1 = Y-y
